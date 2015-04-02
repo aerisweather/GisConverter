@@ -5,19 +5,19 @@ class WKT extends PHPUnit_Framework_TestCase {
 
     public function setup() {
         if (!$this->decoder) {
-            $this->decoder = new gisconverter\WKT();
+            $this->decoder = new \GisConverter\Decoder\WktDecoder();
         }
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText1 () {
         $this->decoder->geomFromText('CRAP');
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText2 () {
         $this->decoder->geomFromText('CRAP ()');

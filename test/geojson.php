@@ -5,26 +5,26 @@ class GeoJSON extends PHPUnit_Framework_TestCase {
 
     public function setup() {
         if (!$this->decoder) {
-            $this->decoder = new gisconverter\GeoJSON();
+            $this->decoder = new \GisConverter\Decoder\GeoJsonDecoder();
         }
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText1 () {
         $this->decoder->geomFromText('{"type":"Crap","coordinates":[10,10]}');
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText2 () {
         $this->decoder->geomFromText('{"crap":"Point","coordinates":[10,10]}');
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText3 () {
         $this->decoder->geomFromText('{not well formed}');
@@ -42,7 +42,7 @@ class GeoJSON extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidPoint () {
         $this->decoder->geomFromText('{"type": "Point"}');
@@ -91,8 +91,8 @@ class GeoJSON extends PHPUnit_Framework_TestCase {
     }
 
     public function testGeometryCollection() {
-        $geom = $this->decoder->geomFromText('{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[10,10]},{"type":"Point","coordinates":[30,30]},{"type":"LineString","coordinates":[[15,15],[20,20]]}]}');
-        $this->assertEquals($geom->toGeoJSON(), '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[10,10]},{"type":"Point","coordinates":[30,30]},{"type":"LineString","coordinates":[[15,15],[20,20]]}]}');
+        $geom = $this->decoder->geomFromText('{"type":"GeometryGeometryCollection","geometries":[{"type":"Point","coordinates":[10,10]},{"type":"Point","coordinates":[30,30]},{"type":"LineString","coordinates":[[15,15],[20,20]]}]}');
+        $this->assertEquals($geom->toGeoJSON(), '{"type":"GeometryGeometryCollection","geometries":[{"type":"Point","coordinates":[10,10]},{"type":"Point","coordinates":[30,30]},{"type":"LineString","coordinates":[[15,15],[20,20]]}]}');
     }
 
     public function testFullFeature() {

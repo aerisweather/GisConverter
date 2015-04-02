@@ -5,19 +5,19 @@ class KML extends PHPUnit_Framework_TestCase {
 
     public function setup() {
         if (!$this->decoder) {
-            $this->decoder = new gisconverter\KML();
+            $this->decoder = new \GisConverter\Decoder\KmlDecoder();
         }
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText1 () {
         $this->decoder->geomFromText('<Crap></Crap>');
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidText2 () {
         $this->decoder->geomFromText('<Point><coordinates>10, 10<coordinates></Point>');
@@ -38,14 +38,14 @@ class KML extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidPoint1 () {
         $this->decoder->geomFromText('<Point>10, 10</Point>');
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidPoint2 () {
         $this->decoder->geomFromText('<Point><coordinates>10, 10</coordinates><coordinates>10, 10</coordinates></Point>');
@@ -70,7 +70,7 @@ class KML extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException gisconverter\InvalidText
+     * @expectedException \GisConverter\Exception\InvalidTextException
      */
     public function testInvalidPolygon() {
         $geom = $this->decoder->geomFromText('<Polygon><innerBoundaryIs><LinearRing><coordinates>1,1 9,1 9,9 1,9 1,1</coordinates></LinearRing></innerBoundaryIs></Polygon>');
@@ -109,28 +109,28 @@ class KML extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException gisconverter\Unimplemented
+     * @expectedException \GisConverter\Exception\UnimplementedException
      */
     public function invalidConversion1() {
-        $decoder = new gisconverter\WKT();
+        $decoder = new \GisConverter\Decoder\WktDecoder();
         $geom = $decoder->geomFromText('POINT(10 10)');
         $geom->toGPX('rte');
     }
 
     /**
-     * @expectedException gisconverter\Unimplemented
+     * @expectedException \GisConverter\Exception\UnimplementedException
      */
     public function invalidConversion2() {
-        $decoder = new gisconverter\WKT();
+        $decoder = new \GisConverter\Decoder\WktDecoder();
         $geom = $decoder->geomFromText('MULTIPOINT(3.5 5.6,4.8 10.5,10 10)');
         $geom->toGPX();
     }
 
     /**
-     * @expectedException gisconverter\Unimplemented
+     * @expectedException \GisConverter\Exception\UnimplementedException
      */
     public function invalidConversion3() {
-        $decoder = new gisconverter\WKT();
+        $decoder = new \GisConverter\Decoder\WktDecoder();
         $geom = $decoder->geomFromText('LINESTRING(3.5 5.6,4.8 10.5,10 10)');
         $geom->toGPX('wpt');
     }

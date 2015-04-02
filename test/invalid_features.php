@@ -5,54 +5,54 @@ class InvalidFeatures extends PHPUnit_Framework_TestCase {
 
     public function setup() {
         if (!$this->default_decoder) {
-            $this->default_decoder = new gisconverter\WKT();
+            $this->default_decoder = new \GisConverter\Decoder\WktDecoder();
         }
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidPoint () {
         $this->default_decoder->geomFromText('POINT (10)');
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidMultiPoint1 () {
         $this->default_decoder->geomFromText('MULTIPOINT (10)');
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidMultiPoint2 () {
         $this->default_decoder->geomFromText('MULTIPOINT (10 10,)');
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidLineString () {
         $this->default_decoder->geomFromText("LINESTRING (10 10)");
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidLinearRing1 () {
         $this->default_decoder->geomFromText("LINEARRING (10 10)");
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidLinearRing2 () {
         $this->default_decoder->geomFromText("LINEARRING(3.5 5.6, 4.8 10.5, 10 10)");
     }
 
     /**
-     * @expectedException gisconverter\InvalidFeature
+     * @expectedException \GisConverter\Exception\InvalidFeatureException
      */
     public function testInvalidPolygon () {
         $this->default_decoder->geomFromText("POLYGON((0 0, 10 0, 10 10, 0 10, 0 0), (-1 1, 9 1, 9 9, 1 9, -1 1))");

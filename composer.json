@@ -1,0 +1,13 @@
+{
+  "name": "aeris/gis-converter",
+  "description": "Convert vector geometries between different formats (wkt, geojson, kml)",
+  "version": "1.0.0",
+  "license": "BSD",
+  "authors": [
+    {
+      "name": "Edan Schwartz",
+      "email": "edanschwartz@gmail.com"
+    }
+  ],
+  "require": {}
+}

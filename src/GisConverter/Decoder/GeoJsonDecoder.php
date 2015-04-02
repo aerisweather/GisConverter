@@ -2,6 +2,7 @@
 namespace GisConverter\Decoder;
 
 use GisConverter\Exception;
+use GisConverter\Geometry\GeometryInterface;
 use GisConverter\Geometry\LinearRing;
 use GisConverter\Geometry\LineString;
 use GisConverter\Geometry\Point;
@@ -9,6 +10,12 @@ use GisConverter\Geometry\Polygon;
 
 class GeoJsonDecoder implements DecoderInterface {
 
+	/**
+	 * @param string $text
+	 * @return GeometryInterface
+	 * @throws Exception\InvalidTextException
+	 * @throws \Exception
+	 */
 	static public function geomFromText($text) {
 		$ltext = strtolower($text);
 		$obj = json_decode($ltext);
@@ -17,7 +24,7 @@ class GeoJsonDecoder implements DecoderInterface {
 		}
 
 		try {
-			$geom = static::_geomFromJson($obj);
+			$geom = static::geomFromJson($obj);
 		}
 		catch (Exception\InvalidTextException $e) {
 			throw new Exception\InvalidTextException(__CLASS__, $text);
@@ -29,9 +36,15 @@ class GeoJsonDecoder implements DecoderInterface {
 		return $geom;
 	}
 
-	static protected function _geomFromJson($json) {
+	/**
+	 * @param $json
+	 * @return GeometryInterface
+	 * @throws Exception\InvalidTextException
+	 * @throws \Exception
+	 */
+	static protected function geomFromJson($json) {
 		if (property_exists($json, "geometry") and is_object($json->geometry)) {
-			return static::_geomFromJson($json->geometry);
+			return static::geomFromJson($json->geometry);
 		}
 
 		if (!property_exists($json, "type") or !is_string($json->type)) {
@@ -145,13 +158,19 @@ class GeoJsonDecoder implements DecoderInterface {
 		return $components;
 	}
 
+	/**
+	 * @param $json
+	 * @return GeometryInterface[]
+	 * @throws Exception\InvalidTextException
+	 * @throws \Exception
+	 */
 	static protected function parseGeometryCollection($json) {
 		if (!property_exists($json, "geometries") or !is_array($json->geometries)) {
 			throw new Exception\InvalidTextException(__CLASS__);
 		}
 		$components = array();
 		foreach ($json->geometries as $geometry) {
-			$components[] = static::_geomFromJson($geometry);
+			$components[] = static::geomFromJson($geometry);
 		}
 
 		return $components;

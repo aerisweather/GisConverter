@@ -1,12 +1,15 @@
 <?php
 
-class GeoJSON extends PHPUnit_Framework_TestCase {
-	private $decoder = null;
+namespace GisConverterTest\Decoder;
 
-	public function setup() {
-		if (!$this->decoder) {
-			$this->decoder = new \GisConverter\Decoder\GeoJsonDecoder();
-		}
+use GisConverter\Decoder\GeoJsonDecoder;
+
+class GeoJsonDecoderTest extends \PHPUnit_Framework_TestCase {
+	/** @var GeoJsonDecoder */
+	private $decoder;
+
+	public function setUp() {
+		$this->decoder = new GeoJsonDecoder();
 	}
 
 	/**

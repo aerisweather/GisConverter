@@ -9,5 +9,8 @@
       "email": "edanschwartz@gmail.com"
     }
   ],
-  "require": {}
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "~3.7"
+  }
 }
